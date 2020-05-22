@@ -131,7 +131,7 @@ healthcheck(callback) {
       */
       this.emitOnline();
       log.info('ServiceNow: Instance is available.');
-      this.healthcheck((responseData) => callback(responseData));
+      this.healthcheck((result) => callback(result));
    }
  });
 }
