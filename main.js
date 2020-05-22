@@ -115,8 +115,7 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-      log.warn('ServiceNow: Instance is unavailable.', this.id);
-      this.healthcheck((error) => callback(error));
+
    } else {
      /**
       * Write this block.
@@ -129,8 +128,7 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      log.warn('ServiceNow: Instance is available.');
-      this.healthcheck((result) => callback(result));
+      
    }
  });
 }
