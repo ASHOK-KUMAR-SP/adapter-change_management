@@ -69,6 +69,21 @@ class ServiceNowAdapter extends EventEmitter {
   }
 
   /**
+   * @memberof ServiceNowAdapter
+   * @method connect
+   * @summary Connect to ServiceNow
+   * @description Complete a single healthcheck and emit ONLINE or OFFLINE.
+   *   IAP calls this method after instantiating an object from the class.
+   *   There is no need for parameters because all connection details
+   *   were passed to the object's constructor and assigned to object property this.props.
+   */
+  connect() {
+    // As a best practice, Itential recommends isolating the health check action
+    // in its own method.
+    this.healthcheck();
+  }
+
+  /**
  * @memberof ServiceNowAdapter
  * @method healthcheck
  * @summary Check ServiceNow Health
