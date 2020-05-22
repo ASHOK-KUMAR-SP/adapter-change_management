@@ -116,7 +116,7 @@ healthcheck(callback) {
       */
       this.emitOffline();
       log.error(this.id);
-      this.healthcheck((error) => callback(error));
+      this.healthcheck((result, error) => callback(result, error));
 
    } else {
      /**
@@ -130,7 +130,7 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      this.healthcheck((result) => callback(result));
+      this.healthcheck((result, error) => callback(result, error));
    }
  });
 }
