@@ -116,7 +116,7 @@ healthcheck(callback) {
       */
       this.emitOnline();
       log.debug('succesful');
-      this.healthcheck((error) => callback(error));
+      this.healthcheck((result) => callback(result));
    }
  });
 }
