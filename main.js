@@ -115,7 +115,7 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-      this.healthcheck((result, error) => callback(result, error));
+      this.healthcheck((error) => callback(error));
 
    } else {
      /**
