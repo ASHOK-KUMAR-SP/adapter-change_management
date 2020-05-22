@@ -115,7 +115,6 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-      log.warn('unsuccesful');
       this.healthcheck((result, error) => callback(result, error));
 
    } else {
@@ -130,7 +129,6 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      log.debug('succesful');
       this.healthcheck((result) => callback(result));
    }
  });
