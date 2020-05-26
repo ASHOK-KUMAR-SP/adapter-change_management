@@ -115,8 +115,8 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-      log.error('error in hibernating' + this.id);
-    //  this.healthcheck((result,error)=>callback(result,error));
+      log.error(`Error occured : ${this.id}`);
+      callback(null,error);
    } else {
      /**
       * Write this block.
@@ -129,11 +129,11 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      log.debug('Successful' + this.id);
-      log.info('this is executed' + this.id);
+      log.debug(`Calling get Records : ${this.id}`);
+      callback(result,null);
       
    }
-   callback(result,error);
+   
  });
 }
 
