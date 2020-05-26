@@ -116,7 +116,7 @@ healthcheck(callback) {
       */
       this.emitOffline();
       log.error('error in hibernating' + this.id);
-      this.healthcheck((result,error)=>callback(result,error));
+    //  this.healthcheck((result,error)=>callback(result,error));
    } else {
      /**
       * Write this block.
@@ -129,8 +129,8 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      log.debug('Successful');
-      this.healthcheck((result,error)=>callback(result,error));
+      log.debug('Successful' + this.id);
+     // this.healthcheck((result,error)=>callback(result,error));
    }
  });
 }
