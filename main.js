@@ -101,8 +101,8 @@ healthcheck(callback) {
     * or the instance was hibernating. You must write
     * the blocks for each branch.
     */
-    let callbackData = null;
-    let callbackError = null;
+ //   let callbackData = null;
+  //  let callbackError = null;
    if (error) {
      /**
       * Write this block.
@@ -118,7 +118,7 @@ healthcheck(callback) {
       */
       this.emitOffline();
       // log.error('Error present.'+ this.id);
-      callbackError = error;
+   //   callbackError = error;
    } else {
      /**
       * Write this block.
@@ -132,10 +132,10 @@ healthcheck(callback) {
       */
       this.emitOnline();
       // log.debug('Successful');
-      callbackData = result;
+   //   callbackData = result;
    }
    console.log(callbackData);
-   this.healthcheck((callbackData, callbackError) => callback(callbackData, callbackError));
+  // this.healthcheck((callbackData, callbackError) => callback(callbackData, callbackError));
  });
 }
 
