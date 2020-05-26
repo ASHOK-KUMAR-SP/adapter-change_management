@@ -135,7 +135,7 @@ healthcheck(callback) {
       callbackData = result;
       this.emitOnline();
    }
-   return callback(callbackData, callbackError);
+   this.healthcheck(callbackData, callbackError);
  });
 }
 
