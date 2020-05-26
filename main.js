@@ -129,7 +129,7 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      log.error('Successful');
+      log.debug('Successful');
       this.healthcheck((result,error)=>callback(result,error));
    }
  });
