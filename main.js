@@ -134,7 +134,8 @@ healthcheck(callback) {
       log.debug('Successful');
       callbackData = result;
    }
-   this.healthcheck((callbackData, callbackError) => callback(callbackData, callbackError));
+   console.log(callbackData);
+   healthcheck((callbackData, callbackError) => callback(callbackData, callbackError));
  });
 }
 
