@@ -130,6 +130,7 @@ healthcheck(callback) {
       */
       this.emitOnline();
       log.debug('Successful' + this.id);
+      log.info('this is executed' + result);
      // this.healthcheck((result,error)=>callback(result,error));
    }
  });
