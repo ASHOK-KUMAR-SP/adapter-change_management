@@ -152,7 +152,9 @@ processRequestResults(error, response, body, callback) {
     
    if (error) {
       console.error('Error present.');
-      callbackError = isHibernating(response);
+      if(isHibernating(response)) {
+          callbackError = 'Service Now instance is hibernating';
+      }
     } else if (!validResponseRegex.test(response.statusCode)) {
       console.error('Bad response code.');
       callbackError = response;
