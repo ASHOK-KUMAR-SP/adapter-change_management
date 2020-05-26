@@ -117,7 +117,7 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-      log.error('Error present.'+ this.id);
+      // log.error('Error present.'+ this.id);
       callbackError = error;
    } else {
      /**
@@ -131,11 +131,11 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      log.debug('Successful');
+      // log.debug('Successful');
       callbackData = result;
    }
    console.log(callbackData);
-   healthcheck((callbackData, callbackError) => callback(callbackData, callbackError));
+   this.healthcheck((callbackData, callbackError) => callback(callbackData, callbackError));
  });
 }
 
