@@ -133,7 +133,7 @@ healthcheck(callback) {
       log.info('this is executed' + result);
       
    }
-   return callback(result, error);
+   this.healthcheck((result,error) => callback(result, error));
  });
 }
 
