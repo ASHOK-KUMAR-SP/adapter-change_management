@@ -93,10 +93,7 @@ class ServiceNowAdapter extends EventEmitter {
  * @param {ServiceNowAdapter~requestCallback} [callback] - The optional callback
  *   that handles the response.
  */
-[7:25 PM] Kumari, Nilu
-    
-
-
+ 
 healthcheck(callback) {
 this.getRecord((result, error) => {
 /**
