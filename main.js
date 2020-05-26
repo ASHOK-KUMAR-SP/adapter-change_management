@@ -130,7 +130,8 @@ healthcheck(callback) {
       */
       this.emitOnline();
       log.debug('Successful' + this.id);
-      log.info('this is executed' + result);
+      log.info('test ' + JSON.stringify(result));
+      log.info('this is executed' + this.id);
       
    }
    this.healthcheck((result,error) => callback(result, error));
