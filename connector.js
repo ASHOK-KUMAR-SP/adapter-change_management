@@ -151,13 +151,16 @@ processRequestResults(error, response, body, callback) {
     let callbackError = null;
     
    if (error) {
-      console.error('Error present.');
-      callbackError = isHibernating(response);
+        console.error('Error present.');
+        callbackError = error;
     } else if (!validResponseRegex.test(response.statusCode)) {
-      console.error('Bad response code.');
-      callbackError = response;
-    }  else {
-      callbackData = response;
+        console.error('Bad response code.');
+        callbackError = response;
+    } else if (this.isHibernating(response)) {
+        callbackError = 'Service Now instance is hibernating';
+        console.error(callbackError);
+    } else {
+        callbackData = response;
     }
     return callback(callbackData, callbackError);
     
@@ -178,7 +181,7 @@ processRequestResults(error, response, body, callback) {
    * @param {error} callback.error - The error property of callback.
    */
   get(callback) {
-    let getCallOptions = { ...this.options };
+    let getCallOptions = this.options;
     getCallOptions.method = 'GET';
     getCallOptions.query = 'sysparm_limit=1';
     this.sendRequest(getCallOptions, (results, error) => callback(results, error));
@@ -198,9 +201,9 @@ processRequestResults(error, response, body, callback) {
  * @param {error} callback.error - The error property of callback.
  */
 post(callback) {
-  let getCallOptions = { ...this.options };
-  getCallOptions.method = 'POST';
-  this.sendRequest(getCallOptions, (results, error) => callback(results, error));
+  let postCallOptions = this.options;
+  postCallOptions.method = 'POST';
+  this.sendRequest(postCallOptions, (results, error) => callback(results, error));
 }
 
 }
