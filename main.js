@@ -162,17 +162,7 @@ healthcheck(callback) {
         
     });
   }
-
-  testFunction() {
-    /**
-     * Write the body for this function.
-     * The function is a wrapper for this.connector's get() method.
-     * Note how the object was instantiated in the constructor().
-     * get() takes a callback function.
-     */
-     console.log(' this is test function ASHOK');
-  }
-
+  
   /**
    * @memberof ServiceNowAdapter
    * @method postRecord

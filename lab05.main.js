@@ -93,7 +93,8 @@ class ServiceNowAdapter extends EventEmitter {
    * @param {ServiceNowAdapter~requestCallback} [callback] - The optional callback
    *   that handles the response.
    */
-  healthcheck(callback) {
+ 
+healthcheck(callback) {
     // We will build this method in a later lab. For now, it will emulate
     // a healthy integration by emmitting ONLINE.
     this.emitOnline();
@@ -152,7 +153,24 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     this.connector.get((results, error) => callback(results, error));
+     this.connector.get((data, error) => {
+        if (error) {
+            console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+        } else {
+            console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+        }
+        
+    });
+  }
+
+  testFunction() {
+    /**
+     * Write the body for this function.
+     * The function is a wrapper for this.connector's get() method.
+     * Note how the object was instantiated in the constructor().
+     * get() takes a callback function.
+     */
+     console.log(' this is test function ASHOK');
   }
 
   /**
@@ -171,7 +189,14 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     this.connector.post((results, error) => callback(results, error));
+     this.connector.post((data, error) => {
+        if (error) {
+            console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+        } else {
+            console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+        }
+        
+    });
   }
 }
 
