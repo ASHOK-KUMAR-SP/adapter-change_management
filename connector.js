@@ -101,7 +101,14 @@ sendRequest(callOptions, callback) {
     uri = this.constructUri(callOptions.serviceNowTable, callOptions.query);
   else
     uri = this.constructUri(callOptions.serviceNowTable);
-    const requestOptions = {
+    
+  /**
+   * You must build the requestOptions object.
+   * This is not a simple copy/paste of the requestOptions object
+   * from the previous lab. There should be no
+   * hardcoded values.
+   */
+   const requestOptions = {
       method: callOptions.method,
       auth: {
       user: callOptions.username,
@@ -110,12 +117,7 @@ sendRequest(callOptions, callback) {
     baseUrl: callOptions.url,
     uri: uri,
   };
-  /**
-   * You must build the requestOptions object.
-   * This is not a simple copy/paste of the requestOptions object
-   * from the previous lab. There should be no
-   * hardcoded values.
-   */
+  
   request(requestOptions, (error, response, body) => {
     this.processRequestResults(error, response, body, (processedResults, processedError) => callback(processedResults, processedError));
   });
@@ -181,7 +183,7 @@ processRequestResults(error, response, body, callback) {
    * @param {error} callback.error - The error property of callback.
    */
   get(callback) {
-    let getCallOptions = this.options;
+    let getCallOptions = { ...this.options };
     getCallOptions.method = 'GET';
     getCallOptions.query = 'sysparm_limit=1';
     this.sendRequest(getCallOptions, (results, error) => callback(results, error));
@@ -201,9 +203,9 @@ processRequestResults(error, response, body, callback) {
  * @param {error} callback.error - The error property of callback.
  */
 post(callback) {
-  let postCallOptions = this.options;
-  postCallOptions.method = 'POST';
-  this.sendRequest(postCallOptions, (results, error) => callback(results, error));
+  let getCallOptions = { ...this.options };
+  getCallOptions.method = 'POST';
+  this.sendRequest(getCallOptions, (results, error) => callback(results, error));
 }
 
 }
