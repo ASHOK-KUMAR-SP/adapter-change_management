@@ -164,6 +164,8 @@ processRequestResults(error, response, body, callback) {
     } else {
         callbackData = response;
     }
+    console.log('callbackData \n' + JSON.stringify(response));
+    console.log(' err \n' + callbackError);
     return callback(callbackData, callbackError);
     
 }
