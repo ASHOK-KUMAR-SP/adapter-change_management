@@ -16,7 +16,6 @@ const request = require('request');
 // We'll use this regular expression to verify REST API's HTTP response status code.
 const validResponseRegex = /(2\d\d)/;
 
-   
  /**
  * @callback iapCallback
  * @description A [callback function]{@link
@@ -90,23 +89,25 @@ function processRequestResults(error, response, body, callback) {
    * This function must not check for a hibernating instance;
    * it must call function isHibernating.
    */
-
-    // Initialize return arguments for callback
     let callbackData = null;
     let callbackError = null;
     
-   if (error) {
-      console.error('Error present.');
-      callbackError = isHibernating(response);
+    if (error) {
+        console.error('Error present.');
+        callbackError = error;
     } else if (!validResponseRegex.test(response.statusCode)) {
-      console.error('Bad response code.');
-      callbackError = response;
-    }  else {
-      callbackData = response;
+        console.error('Bad response code.');
+        callbackError = response;
+    } else if (isHibernating(response)) {
+        callbackError = 'Service Now instance is hibernating';
+        console.error(callbackError);
+    } else {
+        callbackData = response;
     }
     return callback(callbackData, callbackError);
     
 }
+
 
 /**
  * @function sendRequest
@@ -130,21 +131,22 @@ function sendRequest(callOptions, callback) {
     uri = constructUri(callOptions.serviceNowTable, callOptions.query);
   else
     uri = constructUri(callOptions.serviceNowTable);
-    const requestOptions = {
-      method: callOptions.method,
-      auth: {
-      user: options.username,
-      pass: options.password,
-    },
-    baseUrl: options.url,
-    uri: uri,
-  };
   /**
    * You must build the requestOptions object.
    * This is not a simple copy/paste of the requestOptions object
    * from the previous lab. There should be no
    * hardcoded values.
    */
+  const requestOptions = {
+    method: callOptions.method,
+    auth: {
+        user: options.username,
+        pass: options.password,
+    },
+    baseUrl: options.url,
+    uri: uri
+  };
+  
   request(requestOptions, (error, response, body) => {
     processRequestResults(error, response, body, (processedResults, processedError) => callback(processedResults, processedError));
   });
