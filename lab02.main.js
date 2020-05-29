@@ -98,7 +98,7 @@ function get(serviceNowTable, callback) {
 
 /**
  * @function post
- * @description Call the ServiceNow POST API.
+ * @description Call the ServiceNow POST API..
  *
  * @param {string} serviceNowTable - The table target of the ServiceNow table API.
  * @param {iapCallback} callback - Callback a function.
@@ -156,14 +156,13 @@ function post(serviceNowTable, callback) {
 }
 
 
-
 /*
  * This section is used to test your project.
  * We will test both get() and post() functions.
  * If either function returns data, print the returned data to console on STDOUT.
  * If either function returns an error, print the returned data to the console on STDERR.
  */
-function main() {
+ function main() {
   get('change_request', (data, error) => {
     if (error) {
       console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
