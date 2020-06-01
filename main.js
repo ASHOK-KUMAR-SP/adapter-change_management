@@ -80,24 +80,66 @@ class ServiceNowAdapter extends EventEmitter {
   connect() {
     // As a best practice, Itential recommends isolating the health check action
     // in its own method.
-    this.healthcheck();
+    this.healthcheck((data,error)=>{
+        if(error) {
+            console.error('Error returnd in connection \n\n\n\n'+ this.id);
+        } else {
+            console.log( ' Fetching records from \n\n\n\n\n\n' + this.id);
+        }
+    });
   }
 
   /**
-   * @memberof ServiceNowAdapter
-   * @method healthcheck
-   * @summary Check ServiceNow Health
-   * @description Verifies external system is available and healthy.
-   *   Calls method emitOnline if external system is available.
-   *
-   * @param {ServiceNowAdapter~requestCallback} [callback] - The optional callback
-   *   that handles the response.
-   */
-  healthcheck(callback) {
-    // We will build this method in a later lab. For now, it will emulate
-    // a healthy integration by emmitting ONLINE.
-    this.emitOnline();
-  }
+ * @memberof ServiceNowAdapter
+ * @method healthcheck
+ * @summary Check ServiceNow Health
+ * @description Verifies external system is available and healthy.
+ *   Calls method emitOnline if external system is available.
+ *
+ * @param {ServiceNowAdapter~requestCallback} [callback] - The optional callback
+ *   that handles the response.
+ */
+healthcheck(callback) {
+ this.getRecord((result, error) => {
+   /**
+    * For this lab, complete the if else conditional
+    * statements that check if an error exists
+    * or the instance was hibernating. You must write
+    * the blocks for each branch.
+    */
+   if (error) {
+     /**
+      * Write this block.
+      * If an error was returned, we need to emit OFFLINE.
+      * Log the returned error using IAP's global log object
+      * at an error severity. In the log message, record
+      * this.id so an administrator will know which ServiceNow
+      * adapter instance wrote the log message in case more
+      * than one instance is configured.
+      * If an optional IAP callback function was passed to
+      * healthcheck(), execute it passing the error seen as an argument
+      * for the callback's errorMessage parameter.
+      */
+      this.emitOffline();
+      log.error('Error in connection '+ this.id);
+      callback(null, error);
+   } else {
+     /**
+      * Write this block.
+      * If no runtime problems were detected, emit ONLINE.
+      * Log an appropriate message using IAP's global log object
+      * at a debug severity.
+      * If an optional IAP callback function was passed to
+      * healthcheck(), execute it passing this function's result
+      * parameter as an argument for the callback function's
+      * responseData parameter.
+      */
+      this.emitOnline();
+      log.debug('connection Succesful '+ this.id);
+      callback(result, null);
+   }
+ });
+}
 
   /**
    * @memberof ServiceNowAdapter
@@ -152,13 +194,7 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     this.connector.get((data,error) => {
-         if(error) {
-             console.error(' error in get data '+ JSON.stringify(error));
-         } else {
-             console.log('response data from get is '+ JSON.stringify(data));
-         }
-     })
+     this.connector.get((data,error) => callback(data,error));
   }
 
   /**
@@ -177,13 +213,7 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     this.connector.post((data,error) => {
-         if(error) {
-             console.error(' error in post data '+ JSON.stringify(error));
-         } else {
-             console.log('response data from post is '+ JSON.stringify(data));
-         }
-     })
+     this.connector.post((data,error) => callback(data,error))
   }
 }
 
