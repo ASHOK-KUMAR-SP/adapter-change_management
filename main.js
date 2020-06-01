@@ -82,9 +82,9 @@ class ServiceNowAdapter extends EventEmitter {
     // in its own method.
     this.healthcheck((data,error)=>{
         if(error) {
-            console.error('Error returnd in connection \n\n\n\n'+ this.id);
+            console.error('Error returnd in connection '+ this.id);
         } else {
-            console.log( ' Fetching records from \n\n\n\n\n\n' + this.id);
+            console.log( ' Fetching records from ' + this.id);
         }
     });
   }
@@ -101,6 +101,45 @@ class ServiceNowAdapter extends EventEmitter {
  */
 healthcheck(callback) {
  this.getRecord((result, error) => {
+   /**
+    * For this lab, complete the if else conditional
+    * statements that check if an error exists
+    * or the instance was hibernating. You must write
+    * the blocks for each branch.
+    */
+   if (error) {
+     /**
+      * Write this block.
+      * If an error was returned, we need to emit OFFLINE.
+      * Log the returned error using IAP's global log object
+      * at an error severity. In the log message, record
+      * this.id so an administrator will know which ServiceNow
+      * adapter instance wrote the log message in case more
+      * than one instance is configured.
+      * If an optional IAP callback function was passed to
+      * healthcheck(), execute it passing the error seen as an argument
+      * for the callback's errorMessage parameter.
+      */
+      this.emitOffline();
+      log.error('Error in connection '+ this.id);
+      callback(null, error);
+   } else {
+     /**
+      * Write this block.
+      * If no runtime problems were detected, emit ONLINE.
+      * Log an appropriate message using IAP's global log object
+      * at a debug severity.
+      * If an optional IAP callback function was passed to
+      * healthcheck(), execute it passing this function's result
+      * parameter as an argument for the callback function's
+      * responseData parameter.
+      */
+      this.emitOnline();
+      log.debug('connection Succesful '+ this.id);
+      callback(result, null);
+   }
+ });
+ this.postRecord((result, error) => {
    /**
     * For this lab, complete the if else conditional
     * statements that check if an error exists
@@ -201,6 +240,7 @@ healthcheck(callback) {
              console.error('Error fetching data ' + error);
              callbackError = error;
          } else {
+             console.log('Fetched data from get is  '+ JSON.stringify(data));
              callbackData = data;
              if(callbackData.body) {
                 let jsonObject = JSON.parse(callbackData.body);
@@ -214,9 +254,9 @@ healthcheck(callback) {
                     arr.push ({"work_start" : resultList[resultObject].work_start}); 
                     arr.push ({"work_end" : resultList[resultObject].work_end}); 
                     arr.push ({"change_ticket_key" : resultList[resultObject].sys_id}); 
-                    callbackData = arr;
-                    console.log(`\nResponse returned from GET request:\n${JSON.stringify(callbackData)}`);
-                }
+                 }
+                callbackData = arr;
+                console.log(`\nResponse returned from GET request:\n${JSON.stringify(callbackData)}`);
             }
          }
          return callback(callbackData,callbackError);
@@ -246,24 +286,21 @@ healthcheck(callback) {
              console.error('Error fetching data from post ' + error);
              callbackError = error;
          } else {
-             console.log('Fetched data from post is  '+ data);
-             callbackData = data;
-             callbackData = data;
+             console.log('Fetched data from post is  '+ JSON.stringify(data));
+              callbackData = data;
              if(callbackData.body) {
                 let jsonObject = JSON.parse(callbackData.body);
                 let resultList = jsonObject.result;
                 let arr = [];
-                for (let resultObject in resultList) { 
-                    arr.push ({"change_ticket_number" : resultList[resultObject].number}); 
-                    arr.push ({"active" : resultList[resultObject].active}); 
-                    arr.push ({"priority" : resultList[resultObject].priority}); 
-                    arr.push ({"description" : resultList[resultObject].description}); 
-                    arr.push ({"work_start" : resultList[resultObject].work_start}); 
-                    arr.push ({"work_end" : resultList[resultObject].work_end}); 
-                    arr.push ({"change_ticket_key" : resultList[resultObject].sys_id}); 
-                    callbackData = Object.assign({}, arr);
-                    console.log(`\nResponse returned from POST request:\n${JSON.stringify(callbackData)}`);
-                }
+                arr.push ({"change_ticket_number" : resultList.number}); 
+                arr.push ({"active" : resultList.active}); 
+                arr.push ({"priority" : resultList.priority}); 
+                arr.push ({"description" : resultList.description}); 
+                arr.push ({"work_start" : resultList.work_start}); 
+                arr.push ({"work_end" : resultList.work_end}); 
+                arr.push ({"change_ticket_key" : resultList.sys_id});
+                callbackData = arr;
+                console.log(`\nResponse returned from POST request:\n${JSON.stringify(callbackData)}`);
             }
          }
         return callback(callbackData,callbackError);
