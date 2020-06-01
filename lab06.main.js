@@ -194,33 +194,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     this.connector.get((data,error) => {
-         let callbackData = null;
-         let callbackError = null;
-         if(error) {
-             console.error('Error fetching data ' + error);
-             callbackError = error;
-         } else {
-             callbackData = data;
-             if(callbackData.body) {
-                let jsonObject = JSON.parse(callbackData.body);
-                let resultList = jsonObject.result;
-                let arr = [];
-                for (let resultObject in resultList) { 
-                    arr.push ({"change_ticket_number" : resultList[resultObject].number}); 
-                    arr.push ({"active" : resultList[resultObject].active}); 
-                    arr.push ({"priority" : resultList[resultObject].priority}); 
-                    arr.push ({"description" : resultList[resultObject].description}); 
-                    arr.push ({"work_start" : resultList[resultObject].work_start}); 
-                    arr.push ({"work_end" : resultList[resultObject].work_end}); 
-                    arr.push ({"change_ticket_key" : resultList[resultObject].sys_id}); 
-                    callbackData = arr;
-                    console.log(`\nResponse returned from GET request:\n${JSON.stringify(callbackData)}`);
-                }
-            }
-         }
-         return callback(callbackData,callbackError);
-         });
+     this.connector.get((data,error) => callback(data,error));
   }
 
   /**
@@ -239,35 +213,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     this.connector.post((data,error) => {
-         let callbackData = null;
-         let callbackError = null;
-         if(error) {
-             console.error('Error fetching data from post ' + error);
-             callbackError = error;
-         } else {
-             console.log('Fetched data from post is  '+ data);
-             callbackData = data;
-             callbackData = data;
-             if(callbackData.body) {
-                let jsonObject = JSON.parse(callbackData.body);
-                let resultList = jsonObject.result;
-                let arr = [];
-                for (let resultObject in resultList) { 
-                    arr.push ({"change_ticket_number" : resultList[resultObject].number}); 
-                    arr.push ({"active" : resultList[resultObject].active}); 
-                    arr.push ({"priority" : resultList[resultObject].priority}); 
-                    arr.push ({"description" : resultList[resultObject].description}); 
-                    arr.push ({"work_start" : resultList[resultObject].work_start}); 
-                    arr.push ({"work_end" : resultList[resultObject].work_end}); 
-                    arr.push ({"change_ticket_key" : resultList[resultObject].sys_id}); 
-                    callbackData = Object.assign({}, arr);
-                    console.log(`\nResponse returned from POST request:\n${JSON.stringify(callbackData)}`);
-                }
-            }
-         }
-        return callback(callbackData,callbackError);
-    });
+     this.connector.post((data,error) => callback(data,error))
   }
 }
 
