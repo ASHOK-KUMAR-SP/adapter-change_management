@@ -245,18 +245,20 @@ healthcheck(callback) {
              if(callbackData.body) {
                 let jsonObject = JSON.parse(callbackData.body);
                 let resultList = jsonObject.result;
-                let arr = [];
-                for (let resultObject in resultList) { 
-                    arr.push ({"change_ticket_number" : resultList[resultObject].number}); 
-                    arr.push ({"active" : resultList[resultObject].active}); 
-                    arr.push ({"priority" : resultList[resultObject].priority}); 
-                    arr.push ({"description" : resultList[resultObject].description}); 
-                    arr.push ({"work_start" : resultList[resultObject].work_start}); 
-                    arr.push ({"work_end" : resultList[resultObject].work_end}); 
-                    arr.push ({"change_ticket_key" : resultList[resultObject].sys_id}); 
-                 }
-                callbackData = arr;
-                console.log(`\nResponse returned from GET request:\n${JSON.stringify(callbackData)}`);
+                let arr=[];
+                 for (let resultObject in resultList) { 
+                    arr.push ({
+                        change_ticket_number: resultList[resultObject].number,
+                        active: resultList[resultObject].active,
+                        priority : resultList[resultObject].priority,
+                        description : resultList[resultObject].description,
+                        work_start : resultList[resultObject].work_start, 
+                        work_end : resultList[resultObject].work_end, 
+                        change_ticket_key : resultList[resultObject].sys_id 
+                    });
+                    callbackData = arr;
+                    console.log(`\nResponse returned from GET request:\n${JSON.stringify(callbackData)}`);
+                }
             }
          }
          return callback(callbackData,callbackError);
@@ -291,14 +293,15 @@ healthcheck(callback) {
              if(callbackData.body) {
                 let jsonObject = JSON.parse(callbackData.body);
                 let resultList = jsonObject.result;
-                let arr = [];
-                arr.push ({"change_ticket_number" : resultList.number}); 
-                arr.push ({"active" : resultList.active}); 
-                arr.push ({"priority" : resultList.priority}); 
-                arr.push ({"description" : resultList.description}); 
-                arr.push ({"work_start" : resultList.work_start}); 
-                arr.push ({"work_end" : resultList.work_end}); 
-                arr.push ({"change_ticket_key" : resultList.sys_id});
+                let arr = {
+                        change_ticket_number: resultList.number,
+                        active: resultList.active,
+                        priority : resultList.priority,
+                        description : resultList.description,
+                        work_start : resultList.work_start, 
+                        work_end : resultList.work_end, 
+                        change_ticket_key : resultList.sys_id 
+                    }
                 callbackData = arr;
                 console.log(`\nResponse returned from POST request:\n${JSON.stringify(callbackData)}`);
             }
